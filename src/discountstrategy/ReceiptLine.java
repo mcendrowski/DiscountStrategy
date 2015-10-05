@@ -12,6 +12,7 @@ package discountstrategy;
 public class ReceiptLine implements ReceiptLineStrategy {
     private Product product;
     private int quantity;
+//    private FakeDatabase fd;
 
     public ReceiptLine(Product product, int quantity) {
         this.product = product;
@@ -20,6 +21,23 @@ public class ReceiptLine implements ReceiptLineStrategy {
 
     public ReceiptLine() {
     }
+    
+    public ReceiptLine(ReceiptLine rl){
+        this.product=rl.product;
+        this.quantity=rl.quantity;
+    }
+    
+//    public ReceiptLine getReceiptLine(){
+//        return this.
+//    }
+    
+    
+    
+    
+//    public void setReceiptLine(){
+//        this.product=getProduct("AAAA");
+//        
+//    }
 
     @Override
     public Product getProduct() {
@@ -29,6 +47,26 @@ public class ReceiptLine implements ReceiptLineStrategy {
     @Override
     public void setProduct(Product product) {
         this.product = product;
+    }
+    
+    public static ReceiptLine getTestReceiptLine(){
+        FakeDatabase fd = new FakeDatabase();        
+        Product prod1 = fd.findProduct("1111");
+//        this.product=prod1;
+        ReceiptLine rl = new ReceiptLine();
+        rl.product=prod1;
+        rl.quantity=20;
+        return rl;
+    }
+    
+     public static ReceiptLine getReceiptLine(String prodId,int quantity){
+        FakeDatabase fd = new FakeDatabase();        
+        Product prod1 = fd.findProduct(prodId);
+//        this.product=prod1;
+        ReceiptLine rl = new ReceiptLine();
+        rl.product=prod1;
+        rl.quantity=quantity;
+        return rl;
     }
 
     @Override
@@ -71,17 +109,55 @@ public class ReceiptLine implements ReceiptLineStrategy {
     }
     
     public static void main(String[] args) {
-        Product product = new Product("1111","ABCD",2.50,new QtyDiscount(0.10,3));
-        ReceiptLineStrategy rl = new ReceiptLine();
-        rl.setProduct(product);
-        rl.setQuantity(20);
-        System.out.println(rl);
         
-        Product product2 = new Product("2222","EFGH",4,new PercentOffDiscount(0.30));
+        FakeDatabase fd = new FakeDatabase();
+        
+//        System.out.println(fd.showNumber());
+        
+        
+        
+        Product prod1 = fd.findProduct("1111");
+        
+        
+        System.out.println(prod1.getName());
+        
+        ReceiptLineStrategy rl1 = new ReceiptLine();
+        rl1.setProduct(prod1);
+        rl1.setQuantity(20);
+        System.out.println(rl1);
+        
+        Product prod2 = fd.findProduct("2222");
+        
+        System.out.println(prod2.getName());
+        
         ReceiptLineStrategy rl2 = new ReceiptLine();
-        rl2.setProduct(product2);
-        rl2.setQuantity(20);
+        rl2.setProduct(prod2);
+        rl2.setQuantity(9);
         System.out.println(rl2);
+        
+        
+        
+       
+        
+        
+//        Product prod1 = new Product();
+        
+//        Product product = copyProduct()
+        
+        
+//        Product product = new Product("1111","ABCD",2.50,new QtyDiscount(0.10,3));
+//        ReceiptLineStrategy rl = new ReceiptLine();
+//        rl.setProduct(product);
+//        rl.setQuantity(20);
+//        System.out.println(rl);
+//        
+//        Product product2 = new Product("2222","EFGH",4,new PercentOffDiscount(0.30));
+//        ReceiptLineStrategy rl2 = new ReceiptLine();
+//        rl2.setProduct(product2);
+//        rl2.setQuantity(20);
+//        System.out.println(rl2);
+        
+        
         
     }
 
