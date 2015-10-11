@@ -10,30 +10,42 @@ package discountstrategy;
  * @author MCENDROWSKI
  */
 public class Customer {
-    String customerId;
-    String customerName;
+    private String customerId;
+    private String customerName;
+    private String customerAddress;
+    
+    
 
-    public Customer(String customerId, String customerName) {
+    public Customer(String customerId, String customerName,String customerAddress) {
         this.customerId = customerId;
         this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        
     }
 
-    public Customer() {
+    public final String getCustomerAddress() {
+        return customerAddress;
     }
 
-    public String getCustomerId() {
+    public final void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
+    } 
+    
+
+
+    public final String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public final void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
-    public String getCustomerName() {
+    public final String getCustomerName() {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
+    public final void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
     

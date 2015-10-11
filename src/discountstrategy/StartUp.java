@@ -5,8 +5,6 @@
  */
 package discountstrategy;
 
-
-
 /**
  *
  * @author MCENDROWSKI
@@ -15,29 +13,34 @@ public class StartUp {
     
     
     public static void main(String[] args) {
-//        String name;
-//        CashRegister cr = new CashRegister();
-//       
-//        Scanner keyboard = new Scanner(System.in);
-//        
-//        System.out.println("Input the name of the first customer: ");
-//        name = keyboard.nextLine();
-//        
-//        cr.addReceipt(name);
-//        cr.addReceipt(name);        
-//        cr.printCashRegister();
-////        cr.setReceipt(getTestReceipt());
-////        cr.getReceipt().
-       
         
         CashRegister cr = new CashRegister();
         
+        cr.startNewSale("100",new FakeDatabase());        
+
+        
+        cr.addItemLine("1111", 5);
+        cr.addItemLine("2222", 10);
+        cr.addItemLine("3333", 20);        
+        
+        
+        cr.provideReceiptOutput(new OutputReceiptToConsole());
+        cr.outputReceipt();
         
         
         
-        cr.inputToCashRegister();
+         cr.startNewSale("200",new FakeDatabase());
+
+        
+        cr.addItemLine("3333", 1);
+        cr.addItemLine("1111", 5);
+               
         
         
-        cr.outputFromCashRegister();
+        cr.provideReceiptOutput(new OutputReceiptToConsole());
+        cr.outputReceipt();
+        
+        
+ 
     }
 }

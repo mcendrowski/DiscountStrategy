@@ -12,14 +12,12 @@ package discountstrategy;
 public class OutputReceiptToConsole implements OutputReceiptStrategy {
 
     @Override
-    public void outputReceipt(Receipt receipt) {
-        System.out.println(receipt.getReceiptNumber());
-        System.out.println(receipt.getCustomer().getCustomerName());
-        for(int i=0;i<receipt.getReceiptLines().length;i++){
-            System.out.println(receipt.getReceiptLine(i));
-        }     
-        
-        
+    public final void outputReceipt(String receiptDetails) {
+        System.out.println(receiptDetails);        
+    }
+    @Override
+    public final void outputMessage(String messageDetails) {
+        System.out.println(messageDetails);        
     }
     
 }

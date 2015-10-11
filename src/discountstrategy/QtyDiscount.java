@@ -49,7 +49,7 @@ public class QtyDiscount implements DiscountStrategy {
         this.discountRate = discountRate;
     }
     
-    public static void main(String[] args){
+    public static final void main(String[] args){
         DiscountStrategy discount = new QtyDiscount(0.10,2);
 //        DiscountStrategy discount = new PercentOfDiscount(0.10);
         

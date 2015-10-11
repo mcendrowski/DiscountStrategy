@@ -10,5 +10,7 @@ package discountstrategy;
  * @author MCENDROWSKI
  */
 public interface OutputReceiptStrategy {
-    public abstract void outputReceipt(Receipt receipt);
+    public abstract void outputReceipt(String receiptDetails);
+    public abstract void outputMessage(String messageDetails);
+    
 }

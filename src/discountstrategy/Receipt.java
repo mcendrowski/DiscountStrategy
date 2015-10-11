@@ -10,166 +10,145 @@ package discountstrategy;
  * @author MCENDROWSKI
  */
 public class Receipt {
+
     private int receiptNumber;
     private Customer customer;
-    private ReceiptLine[] receiptLines; //= new ReceiptLine[2];
-    private int receiptLinesCount;
+    private LineItem[] LineItems;
+    private int LineItemsCount;
+    private static int receiptCount;
+    private ReceiptDataAccessStrategy database;
+    private OutputReceiptStrategy output;
 
-    public Receipt() {
-   
+    public Receipt(String custId, ReceiptDataAccessStrategy productData) {
+        this.LineItems = new LineItem[0];
+        this.database = productData;
+        this.customer = findCustomer(custId);
+        this.receiptNumber = ++receiptCount;
     }
 
-//    public Receipt(int receiptNumber, String customer) {
-//        this.receiptNumber = receiptNumber;
-//        this.customer = customer;
-//        
-//    }
+    private final Customer findCustomer(final String custId) {
+        if(custId == null || custId.length() == 0) {
+            output.outputMessage("Customer can't be empty.");
+        }
 
-    public Receipt(int receiptNumber, Customer customer) {
-        this.receiptNumber = receiptNumber;
-        this.customer = customer;
-        this.receiptLines = new ReceiptLine[0];
-        this.receiptLinesCount=0;
-        
+        Customer cust = this.database.findCustomer(custId);
+        if(cust == null) {
+            output.outputMessage("Customer not found.");
+        }
+        return cust;
     }
 
-    public int getReceiptNumber() {
+
+    public final ReceiptDataAccessStrategy getProductData() {
+        return database;
+    }
+
+    public final void setProductData(ReceiptDataAccessStrategy productData) {
+        this.database = productData;
+    }
+
+    public final OutputReceiptStrategy getOutput() {
+        return output;
+    }
+
+    public final void setOutput(OutputReceiptStrategy output) {
+        this.output = output;
+    }
+
+    public final void outputReceipt() {
+
+        String outputText = "";
+        outputText += "Sold to: " + this.customer.getCustomerName() + "\n";
+        outputText += "Receipt number: " + this.getReceiptNumber() + "\n\n";
+//        outputText += this.customer.getCustomerName() + "\n";
+        outputText += "ProdId\tDescription\tPrice\tQty\tSubtotal\tDiscount\n";
+        outputText += "-------------------------------------------------------------------\n";
+        for (int i = 0; i < this.getLineItems().length; i++) {
+            outputText += this.getLineItem(i) + "\n";
+
+        }
+        outputText += "\t\t\t\t\t----------------------\n";
+        outputText += "\t\t\t\t\tNet total: \t" + this.getNetTotalOfLineItems() + "\n";
+        outputText += "\t\t\t\t\tTotal discount: " + this.getTotalDiscountOfLineItems() + "\n";
+        outputText += "\t\t\t\t\tTotal due: \t" + this.getTotalDue() + "\n";
+
+        this.output.outputReceipt(outputText);
+
+    }
+
+    public final double getNetTotalOfLineItems() {
+        double subtotal = 0;
+        for (int i = 0; i < this.getLineItems().length; i++) {
+            subtotal += this.getLineItem(i).getValueBeforeDiscount();
+        }
+        return subtotal;
+    }
+
+    public final double getTotalDiscountOfLineItems() {
+        double totalDiscount = 0;
+        for (int i = 0; i < this.getLineItems().length; i++) {
+            totalDiscount += this.getLineItem(i).getTotalDiscount();
+        }
+        return totalDiscount;
+    }
+
+    public final double getTotalDue() {
+        return this.getNetTotalOfLineItems() - this.getTotalDiscountOfLineItems();
+    }
+
+    public final int getReceiptNumber() {
         return receiptNumber;
     }
 
-    public void setReceiptNumber(int receiptNumber) {
+    public final void setReceiptNumber(int receiptNumber) {
         this.receiptNumber = receiptNumber;
     }
 
-    public Customer getCustomer() {
+    public final Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public final void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public ReceiptLine[] getReceiptLines() {
-        return receiptLines;
-    }
-    public ReceiptLine getReceiptLine(int lineNumber){
-        return this.receiptLines[lineNumber];
+    public final LineItem[] getLineItems() {
+        return LineItems;
     }
 
-    public void setReceiptLines(ReceiptLine[] receiptLines) {
-        this.receiptLines = receiptLines;
+    public final LineItem getLineItem(int lineNumber) {
+        return this.LineItems[lineNumber];
     }
 
-    public int getReceiptLinesCount() {
-        return receiptLinesCount;
+    public final void setLineItems(LineItem[] receiptLines) {
+        this.LineItems = receiptLines;
     }
 
-    public void setReceiptLinesCount(int receiptLinesCount) {
-        this.receiptLinesCount = receiptLinesCount;
+    public final int getLineItemsCount() {
+        return LineItemsCount;
     }
-    
-    
-    
-    
-    
-    public static Receipt getTestReceipt(Customer customer){
-        Receipt rcpt1 = new Receipt(1,customer);
-        
-        rcpt1.addReceiptLine("1111",20);
-        rcpt1.addReceiptLine("2222",30);
-        rcpt1.addReceiptLine("1111",20);
-        rcpt1.addReceiptLine("1111",20);
-        return rcpt1;
+
+    public final void setLineItemsCount(int LineItemsCount) {
+        this.LineItemsCount = LineItemsCount;
     }
-    
-   
-    
-    
-    
-    public void addLine(){
-        ReceiptLine[] temp = new ReceiptLine[this.receiptLines.length+1];
-        for (int i=0;i<this.receiptLines.length;i++) {
-        temp[i]=this.receiptLines[i];
+
+    private void increaseArrayLength() {
+
+        LineItem[] temp = new LineItem[this.LineItems.length + 1];
+        for (int i = 0; i < this.LineItems.length; i++) {
+            temp[i] = this.LineItems[i];
         }
-        receiptLines = temp;
-        temp=null;       
-        
+        LineItems = temp;
+        temp = null;
+
     }
-    
-    
-    
-    public void addReceiptLine(String prodId,int quantity){
-        
-        
-//        ReceiptLine rl = new ReceiptLine();
-        
-//        ReceiptLine rl = new ReceiptLine(ReceiptLine.getTestReceiptLine());
-        
-        addLine();
-        ReceiptLine rl = new ReceiptLine(ReceiptLine.getReceiptLine(prodId,quantity));
-//        ReceiptLint rl = new ReceiptLine()
-        
-        
-        
-//        ReceiptLine rl = getTestReceiptLine();
-         
-        
-        
-//        FakeDatabase db = new FakeDatabase();
-//        rl.setProduct(db.findProduct("AAAA"));
-//        rl.setQuantity(20);
-        
-         receiptLines[receiptLinesCount]=rl;        
-        this.receiptLinesCount++;
+
+    public final void addLineItem(final String prodId, final int qty) {
+        // needs validation
+        increaseArrayLength();
+        LineItem item = new LineItem(prodId, qty, this.database);
+        this.LineItems[this.LineItems.length - 1] = item;
+
     }
-    
-//    public void printReceipt(){
-//        System.out.println(getTestReceipt("Jo1").receiptNumber);
-//        System.out.println(getTestReceipt("Jo2").customer);
-//        System.out.println("------------------------------------------------");
-//        for (ReceiptLine rec : getTestReceipt("Jo3").receiptLines){
-//            System.out.println(rec);
-//        }
-//    }
-    
-    
-    
-    
-//    public static void main(String[] args) {
-//        
-//        FakeDatabase fd = new FakeDatabase();
-//        
-//        Customer customer1 = fd.findCustomer("100");
-//        
-//        
-//        System.out.println(customer1.getCustomerName());
-//        
-//        Receipt rcpt1 = new Receipt(1,"John Nash");
-//        
-//        rcpt1.addReceiptLine("1111",20);
-//        rcpt1.addReceiptLine("2222",30);
-//        rcpt1.addReceiptLine("1111",20);
-//        rcpt1.addReceiptLine("1111",20);
-//        
-//        System.out.println(rcpt1.receiptNumber);
-//        System.out.println(rcpt1.customer);
-//        
-////        System.out.println(rcpt1.receiptLines[0].getQuantity());
-////        System.out.println(rcpt1.receiptLines[0]);
-//        
-//        for (int j=0;j<rcpt1.receiptLines.length;j++){
-//            System.out.println(rcpt1.receiptLines[j]);
-//        }
-//        System.out.println("------------------------------------------------");
-//        for (ReceiptLine rec : rcpt1.receiptLines){
-//            System.out.println(rec);
-//        }
-//        System.out.println("Array length: "+rcpt1.receiptLines.length);
-////        System.out.println(rcpt1.receiptLines[0]);
-////        System.out.println(rcpt1.receiptLines[1]);
-//        
-//        rcpt1.printReceipt();
-//        
-//    }
-    
+
 }
