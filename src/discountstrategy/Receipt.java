@@ -13,14 +13,14 @@ public class Receipt {
 
     private int receiptNumber;
     private Customer customer;
-    private LineItem[] LineItems;
-    private int LineItemsCount;
+    private LineItem[] lineItems;
+    private int lineItemsCount;
     private static int receiptCount;
     private ReceiptDataAccessStrategy database;
     private OutputReceiptStrategy output;
 
     public Receipt(String custId, ReceiptDataAccessStrategy productData) {
-        this.LineItems = new LineItem[0];
+        this.lineItems = new LineItem[0];
         this.database = productData;
         this.customer = findCustomer(custId);
         this.receiptNumber = ++receiptCount;
@@ -113,32 +113,32 @@ public class Receipt {
     }
 
     public final LineItem[] getLineItems() {
-        return LineItems;
+        return lineItems;
     }
 
     public final LineItem getLineItem(int lineNumber) {
-        return this.LineItems[lineNumber];
+        return this.lineItems[lineNumber];
     }
 
     public final void setLineItems(LineItem[] receiptLines) {
-        this.LineItems = receiptLines;
+        this.lineItems = receiptLines;
     }
 
     public final int getLineItemsCount() {
-        return LineItemsCount;
+        return lineItemsCount;
     }
 
     public final void setLineItemsCount(int LineItemsCount) {
-        this.LineItemsCount = LineItemsCount;
+        this.lineItemsCount = LineItemsCount;
     }
 
     private void increaseArrayLength() {
 
-        LineItem[] temp = new LineItem[this.LineItems.length + 1];
-        for (int i = 0; i < this.LineItems.length; i++) {
-            temp[i] = this.LineItems[i];
+        LineItem[] temp = new LineItem[this.lineItems.length + 1];
+        for (int i = 0; i < this.lineItems.length; i++) {
+            temp[i] = this.lineItems[i];
         }
-        LineItems = temp;
+        lineItems = temp;
         temp = null;
 
     }
@@ -147,7 +147,7 @@ public class Receipt {
         // needs validation
         increaseArrayLength();
         LineItem item = new LineItem(prodId, qty, this.database);
-        this.LineItems[this.LineItems.length - 1] = item;
+        this.lineItems[this.lineItems.length - 1] = item;
 
     }
 
