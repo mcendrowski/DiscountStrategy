@@ -33,17 +33,18 @@ public class PercentOffDiscount implements DiscountStrategy {
     }
 
     @Override
-    public final void setDiscountRate(double discountRate) {
+    public final void setDiscountRate(double discountRate) throws MandatoryEntryException {
+        ExceptionTest.zeroOrMoreNumberMandatoryEntryTest(discountRate);
         this.discountRate = discountRate;
     }
     
-    public static final void main(String[] args){
-        DiscountStrategy discount = new QtyDiscount(0.10,5);
-//        discount.setDiscountRate(0.10);
-        double amt = discount.getAmountSaved(10.00,2);
-        System.out.println("Discount amount: "+ amt);
-        double newTotal = discount.getDiscountedProductTotal(10.00,2);
-        System.out.println (newTotal);
-    }
+//    public static final void main(String[] args){
+//        DiscountStrategy discount = new QtyDiscount(0.10,5);
+////        discount.setDiscountRate(0.10);
+//        double amt = discount.getAmountSaved(10.00,2);
+//        System.out.println("Discount amount: "+ amt);
+//        double newTotal = discount.getDiscountedProductTotal(10.00,2);
+//        System.out.println (newTotal);
+//    }
     
 }

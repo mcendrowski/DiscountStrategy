@@ -25,13 +25,14 @@ public class FakeDatabase implements ReceiptDataAccessStrategy {
     };
 
     @Override
-    public final Product findProduct(final String prodId) {
+    public final Product findProduct(final String prodId) throws MandatoryEntryException,NotFoundInDatabaseException {
         // validation is needed for method parameter
-        if (prodId == null || prodId.length() == 0) {
-            System.out.println("Sorry, FakeDatabase.findProduct method has "
-                    + "illegal argument");
-            return null;  // end method prematurely after log to console
-        }
+        ExceptionTest.stringMandatoryEntryTest(prodId);
+//        if (prodId == null || prodId.length() == 0) {
+//            System.out.println("Sorry, FakeDatabase.findProduct method has "
+//                    + "illegal argument");
+//            return null;  // end method prematurely after log to console
+//        }
 
         Product product = null;
         for (Product p : products) {
@@ -40,21 +41,24 @@ public class FakeDatabase implements ReceiptDataAccessStrategy {
                 break;
             }
         }
-        if (product==null){
-            System.out.println("Product not found in the database.");
-                   
-        }
+//        ExceptionTest.objectMandatoryEntryTest(product, ExceptionSource.DATABASE);
+        ExceptionTest.objectNotFoundInDatabaseTest(product);
+//        if (product==null){
+//            System.out.println("Product not found in the database.");
+//                   
+//        }
         return product;
     }
        @Override
-      public final Customer findCustomer(final String customerId) {
+      public final Customer findCustomer(final String customerId) throws MandatoryEntryException {
         // validation is needed for method parameter
-        if(customerId == null || customerId.length() == 0) {
-            System.out.println("Sorry, FakeCustomerDatabase.findCustomer method has "
-                    + "illegal argument");
-          
-            return null;  // end method prematurely after log to console
-        }
+//        if(customerId == null || customerId.length() == 0) {
+//            System.out.println("Sorry, FakeCustomerDatabase.findCustomer method has "
+//                    + "illegal argument");
+//          
+//            return null;  // end method prematurely after log to console
+//        }
+        ExceptionTest.stringMandatoryEntryTest(customerId);
         
         
         Customer customer = null;
@@ -64,7 +68,7 @@ public class FakeDatabase implements ReceiptDataAccessStrategy {
                 break;
             }
         }
-        
+         ExceptionTest.objectNotFoundInDatabaseTest(customer);
         return customer;
       
       

@@ -12,11 +12,13 @@ package discountstrategy;
 public class OutputReceiptToConsole implements OutputReceiptStrategy {
 
     @Override
-    public final void outputReceipt(String receiptDetails) {
+    public final void outputReceipt(String receiptDetails) throws MandatoryEntryException {
+        ExceptionTest.stringMandatoryEntryTest(receiptDetails);
         System.out.println(receiptDetails);        
     }
     @Override
-    public final void outputMessage(String messageDetails) {
+    public final void outputMessage(String messageDetails) throws MandatoryEntryException {
+        ExceptionTest.stringMandatoryEntryTest(messageDetails);
         System.out.println(messageDetails);        
     }
     

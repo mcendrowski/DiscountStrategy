@@ -43,7 +43,8 @@ public class Product {
         return prodId;
     }
 
-    public final void setProdId(String prodId) {
+    public final void setProdId(String prodId) throws MandatoryEntryException {
+        ExceptionTest.stringMandatoryEntryTest(prodId);
         this.prodId = prodId;
     }
 
@@ -51,7 +52,8 @@ public class Product {
         return name;
     }
 
-    public final void setName(String name) {
+    public final void setName(String name) throws MandatoryEntryException {
+         ExceptionTest.stringMandatoryEntryTest(name);
         this.name = name;
     }
 
@@ -59,7 +61,8 @@ public class Product {
         return unitPrice;
     }
 
-    public final void setUnitPrice(double unitPrice) {
+    public final void setUnitPrice(double unitPrice) throws MandatoryEntryException {
+        ExceptionTest.positiveNumberMandatoryEntryTest(unitPrice);
         this.unitPrice = unitPrice;
     }
 
@@ -67,7 +70,8 @@ public class Product {
         return discount;
     }
 
-    public final void setDiscount(DiscountStrategy discount) {
+    public final void setDiscount(DiscountStrategy discount) throws MandatoryEntryException {
+        ExceptionTest.zeroOrMoreNumberMandatoryEntryTest(unitPrice);
         this.discount = discount;
     }
 }

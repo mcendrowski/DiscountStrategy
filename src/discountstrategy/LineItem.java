@@ -36,7 +36,8 @@ public class LineItem implements LineItemStrategy {
     }
 
     @Override
-    public final void setProduct(Product product) {
+    public final void setProduct(Product product) throws MandatoryEntryException {
+        ExceptionTest.objectMandatoryEntryTest(product);
         this.product = product;
     }
 
@@ -46,7 +47,8 @@ public class LineItem implements LineItemStrategy {
     }
 
     @Override
-    public final void setQuantity(int quantity) {
+    public final void setQuantity(int quantity) throws MandatoryEntryException {
+        ExceptionTest.positiveNumberMandatoryEntryTest(quantity);        
         this.quantity = quantity;
     }
 

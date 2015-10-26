@@ -26,15 +26,18 @@ public class Receipt {
         this.receiptNumber = ++receiptCount;
     }
 
-    private final Customer findCustomer(final String custId) {
-        if(custId == null || custId.length() == 0) {
-            output.outputMessage("Customer can't be empty.");
-        }
+    private final Customer findCustomer(final String custId) throws MandatoryEntryException,NotFoundInDatabaseException {
+//        if(custId == null || custId.length() == 0) {
+//            output.outputMessage("Customer can't be empty.");
+//        }
+        ExceptionTest.stringMandatoryEntryTest(custId);
+        
 
         Customer cust = this.database.findCustomer(custId);
-        if(cust == null) {
-            output.outputMessage("Customer not found.");
-        }
+//        if(cust == null) {
+//            output.outputMessage("Customer not found.");
+//        }
+        ExceptionTest.objectNotFoundInDatabaseTest(cust);
         return cust;
     }
 
@@ -43,7 +46,8 @@ public class Receipt {
         return database;
     }
 
-    public final void setProductData(ReceiptDataAccessStrategy productData) {
+    public final void setProductData(ReceiptDataAccessStrategy productData) throws MandatoryEntryException {
+        ExceptionTest.objectMandatoryEntryTest(productData);
         this.database = productData;
     }
 
@@ -51,7 +55,8 @@ public class Receipt {
         return output;
     }
 
-    public final void setOutput(OutputReceiptStrategy output) {
+    public final void setOutput(OutputReceiptStrategy output) throws MandatoryEntryException {
+         ExceptionTest.objectMandatoryEntryTest(output);
         this.output = output;
     }
 
@@ -100,7 +105,8 @@ public class Receipt {
         return receiptNumber;
     }
 
-    public final void setReceiptNumber(int receiptNumber) {
+    public final void setReceiptNumber(int receiptNumber) throws MandatoryEntryException {
+        ExceptionTest.positiveNumberMandatoryEntryTest(receiptNumber);
         this.receiptNumber = receiptNumber;
     }
 
@@ -108,7 +114,8 @@ public class Receipt {
         return customer;
     }
 
-    public final void setCustomer(Customer customer) {
+    public final void setCustomer(Customer customer) throws MandatoryEntryException {
+        ExceptionTest.objectMandatoryEntryTest(customer);
         this.customer = customer;
     }
 
@@ -120,16 +127,18 @@ public class Receipt {
         return this.lineItems[lineNumber];
     }
 
-    public final void setLineItems(LineItem[] receiptLines) {
-        this.lineItems = receiptLines;
+    public final void setLineItems(LineItem[] lineItems) throws MandatoryEntryException {
+        ExceptionTest.objectMandatoryEntryTest(lineItems);
+        this.lineItems = lineItems;
     }
 
     public final int getLineItemsCount() {
         return lineItemsCount;
     }
 
-    public final void setLineItemsCount(int LineItemsCount) {
-        this.lineItemsCount = LineItemsCount;
+    public final void setLineItemsCount(int lineItemsCount) throws MandatoryEntryException {
+        ExceptionTest.positiveNumberMandatoryEntryTest(lineItemsCount);
+        this.lineItemsCount = lineItemsCount;
     }
 
     private void increaseArrayLength() {
@@ -143,9 +152,11 @@ public class Receipt {
 
     }
 
-    public final void addLineItem(final String prodId, final int qty) {
+    public final void addLineItem(final String prodId, final int qty) throws MandatoryEntryException {
         // needs validation
         increaseArrayLength();
+        ExceptionTest.stringMandatoryEntryTest(prodId);
+        ExceptionTest.positiveNumberMandatoryEntryTest(qty);
         LineItem item = new LineItem(prodId, qty, this.database);
         this.lineItems[this.lineItems.length - 1] = item;
 

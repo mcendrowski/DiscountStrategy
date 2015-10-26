@@ -18,18 +18,26 @@ public class Customer {
 
     public Customer(String customerId, String customerName,String customerAddress) {
         this.customerId = customerId;
+//        this.setCustomerId(customerId);
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         
     }
 
+    public Customer() {
+    }
+    
+
     public final String getCustomerAddress() {
         return customerAddress;
     }
+    
 
-    public final void setCustomerAddress(String customerAddress) {
+    public final void setCustomerAddress(String customerAddress) throws MandatoryEntryException {
+        ExceptionTest.stringMandatoryEntryTest(customerAddress);
         this.customerAddress = customerAddress;
-    } 
+    }   
+   
     
 
 
@@ -37,7 +45,8 @@ public class Customer {
         return customerId;
     }
 
-    public final void setCustomerId(String customerId) {
+    public final void setCustomerId(String customerId) throws MandatoryEntryException {
+        ExceptionTest.stringMandatoryEntryTest(customerId);
         this.customerId = customerId;
     }
 
@@ -45,7 +54,8 @@ public class Customer {
         return customerName;
     }
 
-    public final void setCustomerName(String customerName) {
+    public final void setCustomerName(String customerName) throws MandatoryEntryException {
+        ExceptionTest.stringMandatoryEntryTest(customerName);
         this.customerName = customerName;
     }
     

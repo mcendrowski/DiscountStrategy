@@ -16,18 +16,22 @@ public class CashRegister {
     private Receipt receipt;
 
     public final void startNewSale(String custId,ReceiptDataAccessStrategy database) {
+        
         receipt = new Receipt(custId, database);
+        
     }
 
     public final Customer getCustomer() {
         return customer;
     }
 
-    public final void setCustomer(Customer customer) {
+    public final void setCustomer(Customer customer) throws MandatoryEntryException {
+        ExceptionTest.objectMandatoryEntryTest(customer);        
         this.customer = customer;
     }
 
-    public final void provideReceiptOutput(OutputReceiptStrategy outputReceipt) {
+    public final void provideReceiptOutput(OutputReceiptStrategy outputReceipt) throws MandatoryEntryException {
+        ExceptionTest.objectMandatoryEntryTest(outputReceipt);
         receipt.setOutput(outputReceipt);
 
     }

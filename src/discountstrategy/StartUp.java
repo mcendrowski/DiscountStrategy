@@ -14,30 +14,73 @@ public class StartUp {
     
     public static void main(String[] args) {
         
+//        Customer customer = new Customer();
+//        customer.setCustomerAddress(null);
+        
+        
+        
+        
         CashRegister cr = new CashRegister();
-        
-        cr.startNewSale("100",new FakeDatabase());        
+        try{
+        cr.startNewSale("100",new FakeDatabase()); }
+        catch (MandatoryEntryException | NotFoundInDatabaseException mee){
+            System.out.println(mee.getMessage());
+            
+        }
 
+        try{
+        cr.addItemLine("1111", 5);}
+        catch (MandatoryEntryException | NotFoundInDatabaseException mee){
+            System.out.println(mee.getMessage());
+        }
         
-        cr.addItemLine("1111", 5);
-        cr.addItemLine("2222", 10);
-        cr.addItemLine("3333", 20);        
+         try{
+        cr.addItemLine("2222", 10);}
+        catch (MandatoryEntryException | NotFoundInDatabaseException mee){
+            System.out.println(mee.getMessage());
+        }
+         
+          try{
+        cr.addItemLine("3333", 20);}
+        catch (MandatoryEntryException | NotFoundInDatabaseException mee){
+            System.out.println(mee.getMessage());
+        }       
+               
         
-        
-        cr.provideReceiptOutput(new OutputReceiptToConsole());
+        try{
+        cr.provideReceiptOutput(new OutputReceiptToConsole());}
+        catch (MandatoryEntryException mee) {
+            System.out.println(mee.getMessage());
+        }
         cr.outputReceipt();
         
         
+        try {
+         cr.startNewSale("200",new FakeDatabase());}
+          catch (MandatoryEntryException | NotFoundInDatabaseException mee){
+            System.out.println(mee.getMessage());
+            
+        }
         
-         cr.startNewSale("200",new FakeDatabase());
-
+         try{
+        cr.addItemLine("3333", 1);}
+        catch (MandatoryEntryException | NotFoundInDatabaseException mee){
+            System.out.println(mee.getMessage());
+        }
+         
+          try{
+        cr.addItemLine("1111", 5);}
+        catch (MandatoryEntryException | NotFoundInDatabaseException mee){
+            System.out.println(mee.getMessage());
+        }       
         
-        cr.addItemLine("3333", 1);
-        cr.addItemLine("1111", 5);
                
         
-        
-        cr.provideReceiptOutput(new OutputReceiptToConsole());
+        try{
+        cr.provideReceiptOutput(new OutputReceiptToConsole());}
+        catch (MandatoryEntryException mee) {
+            System.out.println(mee.getMessage());
+        }
         cr.outputReceipt();
         
         
